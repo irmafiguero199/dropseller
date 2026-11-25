@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 44">
+  <rect x="0" y="2" width="40" height="40" rx="10" fill="#4f46e5"/>
+  <path d="M23.5 9 L14 26.5 h7 L20.5 35 L30 17.5 h-7 z" fill="#ffffff"/>
+  <text x="50" y="29" font-family="Inter, system-ui, sans-serif" font-size="20" font-weight="700" fill="#111827">dropsellerr</text>
+</svg>

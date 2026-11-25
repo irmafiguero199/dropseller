@@ -1,0 +1,13 @@
+<!doctype html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Redirection — Dropsellerr</title>
+    <script>
+      // Redirect spa fallback for static hosts (GitHub Pages)
+      var path = window.location.pathname + window.location.search + window.location.hash;
+      window.location.replace("/?redirect=" + encodeURIComponent(path));
+    </script>
+  </head>
+  <body></body>
+</html>
