@@ -1,0 +1,7 @@
+torch>=2.2.0
+f5-tts
+huggingface_hub
+vocos
+soundfile
+accelerate
+safetensors
