@@ -110,4 +110,133 @@ export default function Checkout() {
           <div className="mt-10 p-12 rounded-2xl border border-dashed border-gray-200 text-center">
             <p className="font-semibold text-gray-900">{c.emptyTitle}</p>
             <p className="mt-1 text-sm text-gray-500">{c.emptyDesc}</p>
-            <Link to="/catalogue" className="mt-5 inline-block px-6 py-3 rounded-xl bg-brand-600
+            <Link to="/catalogue" className="mt-5 inline-block px-6 py-3 rounded-xl bg-brand-600 text-white font-semibold hover:bg-brand-700">
+              {c.browse}
+            </Link>
+          </div>
+        ) : sent ? (
+          <div className="mt-10 p-10 rounded-2xl bg-green-50 border border-green-100 text-center max-w-2xl mx-auto">
+            <CheckCircle2 className="w-12 h-12 text-green-500 mx-auto mb-4" />
+            <p className="text-xl font-bold text-gray-900">{c.sentTitle}</p>
+            <p className="mt-2 text-gray-600">{c.sentDesc}</p>
+            <Link to="/catalogue" className="mt-6 inline-block px-6 py-3 rounded-xl bg-brand-600 text-white font-semibold hover:bg-brand-700">
+              {c.browse}
+            </Link>
+          </div>
+        ) : (
+          <div className="mt-8 grid lg:grid-cols-5 gap-8">
+            <div className="lg:col-span-3 space-y-6">
+              <section className="p-6 rounded-2xl border border-gray-100">
+                <h2 className="font-bold text-gray-900 mb-4">{c.yourInfo}</h2>
+                <div className="space-y-3">
+                  <input
+                    required
+                    value={form.name}
+                    onChange={(e) => setForm({ ...form, name: e.target.value })}
+                    placeholder={c.fullName}
+                    className="w-full px-4 py-3 rounded-xl bg-white border border-gray-200 text-sm focus:outline-none focus:ring-2 focus:ring-brand-500"
+                  />
+                  <input
+                    required
+                    value={form.whatsapp}
+                    onChange={(e) => setForm({ ...form, whatsapp: e.target.value })}
+                    placeholder={c.whatsappNumber}
+                    className="w-full px-4 py-3 rounded-xl bg-white border border-gray-200 text-sm focus:outline-none focus:ring-2 focus:ring-brand-500"
+                    dir="ltr"
+                  />
+                  <input
+                    type="email"
+                    value={form.email}
+                    onChange={(e) => setForm({ ...form, email: e.target.value })}
+                    placeholder={c.emailOptional}
+                    className="w-full px-4 py-3 rounded-xl bg-white border border-gray-200 text-sm focus:outline-none focus:ring-2 focus:ring-brand-500"
+                  />
+                </div>
+
+                <h2 className="font-bold text-gray-900 mt-6 mb-3">{c.paymentMethod}</h2>
+                <div className="flex items-start gap-3 p-4 rounded-xl border-2 border-brand-500 bg-brand-50">
+                  <Landmark className="w-5 h-5 text-brand-600 mt-0.5 shrink-0" />
+                  <div>
+                    <p className="font-semibold text-gray-900 text-sm flex items-center gap-2">
+                      <CreditCard className="w-4 h-4" /> {c.bankTransfer}
+                    </p>
+                    <p className="text-xs text-gray-500 mt-1">{c.bankTransferDesc}</p>
+                  </div>
+                </div>
+
+                <div className="mt-6 p-4 rounded-xl bg-gray-50">
+                  <p className="text-sm font-semibold text-gray-900 mb-2">{c.instructionsTitle}</p>
+                  <ol className="space-y-1.5">
+                    {c.instructions.map((step, i) => (
+                      <li key={i} className="text-sm text-gray-500 flex gap-2">
+                        <span className="font-semibold text-brand-600 shrink-0">{i + 1}.</span>
+                        {step}
+                      </li>
+                    ))}
+                  </ol>
+                </div>
+              </section>
+            </div>
+
+            <div className="lg:col-span-2">
+              <div className="lg:sticky lg:top-24 p-6 rounded-2xl border border-gray-100 bg-white shadow-sm">
+                <h2 className="font-bold text-gray-900 mb-4">{t.common.orderSummary}</h2>
+                <div className="space-y-3">
+                  {items.map(({ product, qty }) => (
+                    <div key={product.slug} className="flex items-start gap-3">
+                      <div className="flex-1 min-w-0">
+                        <p className="text-sm font-medium text-gray-900 leading-snug">{product.name[lang]}</p>
+                        <p className="text-xs text-gray-500">{product.duration[lang]}</p>
+                        <div className="mt-1.5 flex items-center gap-2">
+                          <button
+                            onClick={() => setQty(product.slug, qty - 1)}
+                            className="w-6 h-6 rounded-md border border-gray-200 text-gray-600 text-xs hover:bg-gray-50"
+                          >
+                            −
+                          </button>
+                          <span className="text-xs font-medium tabular-nums">{qty}</span>
+                          <button
+                            onClick={() => setQty(product.slug, qty + 1)}
+                            className="w-6 h-6 rounded-md border border-gray-200 text-gray-600 text-xs hover:bg-gray-50"
+                          >
+                            +
+                          </button>
+                          <button
+                            onClick={() => remove(product.slug)}
+                            className="ms-auto p-1 rounded-md text-gray-400 hover:text-red-500"
+                            aria-label={t.common.remove}
+                          >
+                            <Trash2 className="w-3.5 h-3.5" />
+                          </button>
+                        </div>
+                      </div>
+                      <p className="text-sm font-semibold text-gray-900 tabular-nums">
+                        {t.common.currency}{(product.price * qty).toFixed(2)}
+                      </p>
+                    </div>
+                  ))}
+                </div>
+                <div className="mt-4 pt-4 border-t border-gray-100 flex items-center justify-between font-bold text-gray-900">
+                  <span>{t.common.total}</span>
+                  <span className="tabular-nums">{t.common.currency}{total.toFixed(2)}</span>
+                </div>
+                <button
+                  disabled={!form.name.trim() || !form.whatsapp.trim()}
+                  onClick={() => {
+                    window.open(waLink(buildMessage()), "_blank");
+                    setSent(true);
+                  }}
+                  className="mt-5 w-full flex items-center justify-center gap-2 px-6 py-3.5 rounded-xl bg-green-500 text-white font-semibold hover:bg-green-600 transition-colors disabled:opacity-40 disabled:cursor-not-allowed"
+                >
+                  <MessageCircle className="w-5 h-5" />
+                  {c.sendOrder}
+                </button>
+                <p className="mt-3 text-xs text-gray-400 text-center">{c.bankTransferDesc}</p>
+              </div>
+            </div>
+          </div>
+        )}
+      </div>
+    </>
+  );
+}
